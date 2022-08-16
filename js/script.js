@@ -1,6 +1,6 @@
 //Este programa es un siumulador de agenda para poder organizarse con distintas tareas. Indicando el nombre del evento,descripcion , la fecha y la hora.
 //Funciones de interaccion:
-//crearEvento
+//crearEvento(): Para crear un nuevo evento.
 //eliminarEvento(evento a eliminar): Se le pasa como parametro el evento que deseamos eliminar y lo borra de nuestro array.
 //buscarEvento(eventoBuscado): Se le pasa como parametro el evento que estamos buscando y este se mostrará en el dom. Abajo de los demas
 
@@ -73,7 +73,7 @@ function crearEvento(){
     let date = new Date(prompt('Porfavor seleccione una fecha para el evento. Indicando primero el mes,despues el dia y luego el año. por ej: 8/11/2022)')
     )
 
-    date.setHours(parseInt(prompt('A que horario?')))
+    date.setHours(parseInt(prompt('A que horario?. Indicar solo la hora. por ej(14) en vez de 14:00')))
 
     let nombre = prompt('Nombre del evento')
 
