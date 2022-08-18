@@ -5,16 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="js/script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <title>Agenda</title>
 </head>
 <body>
-    <header class="date-today">
-
+    <header class="app__header">
+        <ul class="header__nav">
+            <li><i class='bx bx-clipboard'></i></li>
+            <li><i class='bx bx-search' ></i></li>
+            <li><i class='bx bx-arrow-to-left'></i></li>
+        </ul>
     </header>
-    <div class="container-agenda" id="eventos">
-        <div class="eventos"></div>
-    </div>
+    <main>
+        <div class="main__today"></div>
+        <div class="main__container-input">
+            <input class="input input-nombre" type="text" placeholder="Nombre">
 
-    
+            <input class="input input-desc desplazar" type="text" placeholder="Ingrese su descripcion">
+
+            <input class="input input-date desplazar" type="date" placeholder="Fecha del evento" >
+
+            <input class="input input-time desplazar" type="time" placeholder="Hora del evento">
+        </div>
+        <div class="eventos">
+           
+        </div>
+    </main>
 </body>
 </html>

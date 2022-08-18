@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #cdb7b7;
+    font-family: 'Poppins', sans-serif;
+}
+
+.app__header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header__nav{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: .5em;
+    width: 60%;
+    list-style: none;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main__today{
+    margin-top: 5em;
+    text-align: center;
+    font-weight: 500;
+}
+
+.main__container-input{
+    position: relative;
+    width: 50%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.main__container-input .input{
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 1em;
+    width: 500px;
+    padding: 1em 1.2em;
+    margin-bottom: 2em;
+    border-radius: 20px;
+    box-shadow:  20px 20px 60px #ae9c9c,
+             -20px -20px 60px #ecd2d2;
+}
+
+
+
+.container{
+    border-radius: 20px;
+    width: 200px;
+    height: 200px;
+    
+}
+
+.bx{
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.eliminar-evento{
+    color: red;
+    cursor: pointer;
+}
