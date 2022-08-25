@@ -26,6 +26,8 @@ body{
     list-style: none;
 }
 
+
+
 main{
     display: flex;
     flex-direction: column;
@@ -40,40 +42,178 @@ main{
 
 .main__container-input{
     position: relative;
-    width: 50%;
+    width: 600px;
+    height: 300px;
     margin-top: 2em;
     margin-bottom: 2em;
     text-align: center;
 }
 
-.main__container-input .input{
+.bx{
+    font-size: 25px;
+}
+
+.input{
     border: none;
-    background: none;
+    background-color: #ecd2d2;
     outline: none;
+    position: relative;
     font-size: 1em;
-    width: 500px;
+    width: 600px;
     padding: 1em 1.2em;
-    margin-bottom: 2em;
     border-radius: 20px;
-    box-shadow:  20px 20px 60px #ae9c9c,
-             -20px -20px 60px #ecd2d2;
+    box-shadow:  20px 20px 30px #ae9c9c,
+             -20px -20px 50px #ecd2d2;
+    transition: transform .5s ease;
+}
+
+.input-nombre{
+    z-index: 4;    
+}
+.input-desc{
+    z-index: 3;    
+}
+.input-date{
+    z-index: 2;    
+}
+.input-time{
+    z-index: 1;    
+}
+
+.input-date,
+.input-desc,
+.input-time{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.input-desc-desplazar{
+    transform: translate(0,5rem);
+}
+
+.input-date-desplazar{
+    transform: translate(0,10rem);
+}
+
+.input-time-desplazar{
+    transform: translate(0,15rem);
 }
 
 
+/* Eventos notas*/
 
-.container{
-    border-radius: 20px;
-    width: 200px;
-    height: 200px;
+.eventos{
+    width: 100%;
+    padding: 1em 5em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+}
+
+.container__evento-nota{
+    margin: 2em auto;
+    transform: rotateZ(-3deg);
+    transform-origin: top right;
+    background: linear-gradient(
+    #faf8ef 98%,
+    #bdbdbd 98%);
+    background-size: 100% 40px;
+    background-position: 0 1em;
+    padding: 1em;
+    transition: transform .3s ease;
+}
+
+.container__evento-nota:hover{
+    transform: rotateZ(-5deg);
     
 }
 
-.bx{
-    font-size: 25px;
-    cursor: pointer;
+.container__evento-nota ul{
+    position: relative;
+    width: 250px;
+    height: 350px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+ul li{
+    line-height: 40px;
+}
+
+/* Notas */
+.evento-nota .evento-fecha i{
+    position: absolute;
+    top: -.8em;
+    right: -.8em;
+    font-size: 35px;
+}
+
+
+.evento-nota .evento-fecha span{
+    font-size: 1.2em;
+    border-bottom: 2px ridge rgb(0, 0, 0)
+}
+
+.evento-nota .evento-time{
+    position: absolute;
+    top: 3.5em;
+    right: 0;
+    font-size: 1.5em;
+}
+
+.evento-nota .evento-time span{
+    position: relative;
+    top: -.2em;
+}
+
+.evento-nota .evento-info{
+    position: relative;
+    top: 60px;
+}
+
+.evento-nota .evento-info p{
+    line-height: 40px;
+}
+
+.evento-nota .evento-nombre{
+    display: inline;
+    font-size: 1.3em;
+    background-color: #ae9c9cee;
+}
+
+.eliminar-evento i{
+    font-size: 35px;
 }
 
 .eliminar-evento{
-    color: red;
     cursor: pointer;
+    position: absolute;
+    bottom: -1em;
+    text-align: center;
+    transition: opacity .2s ease;
 }
+
+.eliminar-evento:hover{
+    opacity: .6;
+}
+
+.eventos-interaccion{
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.eventos-prueba{
+    background-color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color.5s ease;
+}
+
+.eventos-prueba:hover{
+    background-color: #ecd2d2;
+}
+/* -Que se pueda seleccionar color de la nota
+   -Que se pueda colocar o ubicarse en lugares random */

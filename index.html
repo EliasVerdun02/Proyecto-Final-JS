@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script defer src="js/script.js"></script>
+    <script defer src="js/estructura.js"></script>
+    <script defer src="js/app.js"></script>
+    <script defer src="js/form.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <title>Agenda</title>
 </head>
-<body>
+<body class="body">
     <header class="app__header">
         <ul class="header__nav">
             <li><i class='bx bx-clipboard'></i></li>
@@ -20,17 +22,38 @@
     <main>
         <div class="main__today"></div>
         <div class="main__container-input">
-            <input class="input input-nombre" type="text" placeholder="Nombre">
+            <input class="input input-nombre " type="text" placeholder="Nombre. Presionar 'Enter' en cada  ingreso">
 
-            <input class="input input-desc desplazar" type="text" placeholder="Ingrese su descripcion">
+            <input class="input input-desc" type="text" placeholder="Ingrese su descripcion">
 
-            <input class="input input-date desplazar" type="date" placeholder="Fecha del evento" >
+            <input class="input input-date" type="date" placeholder="Fecha del evento" max="2023-06-01">
 
-            <input class="input input-time desplazar" type="time" placeholder="Hora del evento">
-        </div>
-        <div class="eventos">
-           
+            <input class="input input-time" type="time" placeholder="Hora del evento">
         </div>
     </main>
+    <div class="container-eventos">
+        <div class="eventos-interaccion">
+            <select name="select" id="select" class="select-mes">
+                <option value="Enero">Enero</option>
+                <option value="Febrero">Febrero</option>
+                <option value="Marzo">Marzo</option>
+                <option value="Abril">Abril</option>
+                <option value="Mayo">Mayo</option>
+                <option value="Junio">Junio</option>
+                <option value="Julio">Julio</option>
+                <option value="Agosto">Agosto</option>
+                <option value="Septiembre">Septiembre</option>
+                <option value="Octubre">Octubre</option>
+                <option value="Noviembre">Noviembre</option>
+                <option value="Diciembre">Diciembre</option>
+                <option value="Todos" selected>Todos</option>
+            </select>
+            <input type="text" class="input-busqueda" placeholder="buscar evento">
+            <button class="eventos-prueba">Generar eventos de prueba</button>
+        </div>
+        <div class="eventos">
+    
+        </div>
+    </div>
 </body>
 </html>
