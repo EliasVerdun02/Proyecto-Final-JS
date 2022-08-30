@@ -4,17 +4,17 @@
 //Faltan : Estilos, y mejor experiencia de usuario(notas editables, fecha de creacion, dias restantes para el evento,etc)
 
 const generarEventos =()=>{
-    agenda.push(new Evento('Reunion laboral','Reunion sobre como mejorar el ambiente laboral',new Date(2022,8,12,13,12))),
-    agenda.push(new Evento('Visita al museo','Museo nacional artistico',new Date(2022,8,20,20,15))),
-    agenda.push(new Evento('Salida familiar','Salida al parque',new Date(2022,10,11,16))),
-    agenda.push(new Evento('Medico','Turno para chequeo',new Date(2022,9,11,7))),
-    agenda.push(new Evento('Cumpleaños','fecha festiva',new Date(2022,11,27,22))),
-    agenda.push(new Evento('Juntada con amigos','Plaza mitre',new Date(2022,9,12,22))),
-    agenda.push(new Evento('Pool party','Casa de Juan',new Date(2023,0,2,11))),
-    agenda.push(new Evento('Comeinzo universidad','CBC UBA',new Date(2023,02,14,13))),
-    agenda.push(new Evento('Asado','En lo de Martin',new Date(2022,11,20,21))),
-    agenda.push(new Evento('Fiesta de fin de año','Guemes',new Date(2022,11,31,19))),
-    agenda.push(new Evento('CoderHouse','2da pre-entrega del proyecto final',new Date(2022,07,25,23,59)))
+    agenda.push(new Evento('Reunion laboral','Reunion sobre como mejorar el ambiente laboral',new Date(2022,8,12,13,12),1)),
+    agenda.push(new Evento('Visita al museo','Museo nacional artistico',new Date(2022,8,20,20,15),2)),
+    agenda.push(new Evento('Salida familiar','Salida al parque',new Date(2022,10,11,16),3)),
+    agenda.push(new Evento('Medico','Turno para chequeo',new Date(2022,9,11,7),4)),
+    agenda.push(new Evento('Cumpleaños','fecha festiva',new Date(2022,11,27,22),5)),
+    agenda.push(new Evento('Juntada con amigos','Plaza mitre',new Date(2022,9,12,22),6)),
+    agenda.push(new Evento('Pool party','Casa de Juan',new Date(2023,0,2,11),7)),
+    agenda.push(new Evento('Comeinzo universidad','CBC UBA',new Date(2023,02,14,13),8)),
+    agenda.push(new Evento('Asado','En lo de Martin',new Date(2022,11,20,21),9)),
+    agenda.push(new Evento('Fiesta de fin de año','Guemes',new Date(2022,11,31,19),10)),
+    agenda.push(new Evento('CoderHouse','2da pre-entrega del proyecto final',new Date(2022,07,25,23,59),11))
 
     guardarStorage("agendaStorage",agenda)
     cargarEventos(agenda)
@@ -26,6 +26,8 @@ const cargarApp=()=>{
     recuperarStorage()
     diaDeHoy()
 }
+
+
 
 //Local Storage
 const guardarStorage=(clave,valor)=>{
@@ -39,7 +41,7 @@ const recuperarStorage=()=>{
         let agendaRecuperada = [...(JSON.parse(localStorage.getItem("agendaStorage")))]
 
         agendaRecuperada.forEach(evento => {
-            agenda.push(new Evento(evento.nombre, evento.descripcion, new Date(evento.date)))
+            agenda.push(new Evento(evento.nombre, evento.descripcion, new Date(evento.date),evento.id))
         })
         cargarEventos(agenda)
     }
@@ -54,7 +56,7 @@ const diaDeHoy=()=>{
 
 const crearEventoHtml =(evento)=>{
     let eventoHtml = `
-    <div class="container__evento-nota">
+    <div class="container__evento-nota" data-id="${evento.id}">
         <ul class="evento-nota">
             <li class="evento-fecha"><span>${evento.fecha()}</span><i class='bx bxs-popsicle'></i></li>
            
@@ -70,9 +72,13 @@ const crearEventoHtml =(evento)=>{
     return eventoHtml
 }
 
-const cargarEventos=(agenda)=>{
+const cargarEventos=(agendaPar)=>{
+    let mes = document.querySelector(".select-mes").value;
+    if(agendaPar == undefined){
+        mes == 'Todos' ? agendaPar = [...agenda] : agendaPar = [...agendaMes]
+    }
     let eventos = ''
-    for(evento of agenda){
+    for(evento of agendaPar){
         eventos += crearEventoHtml(evento)
     }
 
@@ -83,15 +89,14 @@ const cargarEventos=(agenda)=>{
     }
 }
 
-const ajustarFechaHorario=(arrayInputs)=>{
-    let fecha = new Date(arrayInputs[2].value)
+const ajustarFechaHorario=(dat,time)=>{
+    let fecha = new Date(dat.value)
 
-    let horario = arrayInputs[3].value
+    let horario = time.value
     let numeroMes = fecha.getDate()
     let hora = parseInt(String(horario.substring(0,2))) 
     let min = parseInt(String(horario.substring(3,5)))
     
-
     fecha.setDate(numeroMes + 1)
     fecha.setHours(hora,min)
 
@@ -105,27 +110,39 @@ const verificarDatos=(valor)=>{
         return true
 }
 }
+
+const crearId=()=>{
+    let numeroId = agenda[agenda.length - 1].id + 1
+   
+    return numeroId
+}
+
 const crearEvento=()=>{
     let arrayInputs = document.querySelectorAll('.input')
 
-    agenda.push(new Evento(arrayInputs[0].value,arrayInputs[1].value,ajustarFechaHorario(arrayInputs)))
+    const [name,desc,dat,time] = arrayInputs
+
+    agenda.push(new Evento(name.value,desc.value,ajustarFechaHorario(dat,time),crearId()))
 
     guardarStorage("agendaStorage",agenda)
     cargarEventos(agenda)
+    SortableFuncionesStore()
 
     arrayInputs.forEach((input)=>{
         input.value = ''
     })
 }
 
-
 const eliminarEvento=(id)=>{
     let index = agenda.findIndex(evento => evento.id == id)
+    let index2 = agendaMes.findIndex(evento => evento.id == id)
 
-    agenda.splice(index,1)
-    
-    cargarEventos(agenda)
-    guardarStorage("agendaStorage" ,agenda)
+    agenda.splice(index,1)    
+    agendaMes.splice(index2,1)    
+
+    cargarEventos()
+    SortableFuncionesStore()
+    guardarStorage("agendaStorage" ,agenda)    
 }
 
 document.querySelector(".select-mes").addEventListener("change", () => {
@@ -151,7 +168,6 @@ document.querySelector(".select-mes").addEventListener("change", () => {
 })
 
 document.querySelector('.input-busqueda').addEventListener("keyup",e=>{
-
     let nombre = e.target.value.toLowerCase()
 
     if(agendaMes.length){
@@ -167,6 +183,36 @@ document.querySelector('.input-busqueda').addEventListener("keyup",e=>{
 })
 
 cargarApp()
+
+//Libreria para mover los eventos y tambien guardar su posicion
+const eventos = document.getElementById("eventos")
+
+const SortableFuncionesStore=()=>{
+    Sortable.create(eventos, {
+        animation: 250,
+        chosenClass: "seleccionado",
+        ghostClass: "fantasma",
+        dragClass: "sortable-drag",
+        group: "lista-eventos",
+
+        store: {
+            //guardamos el orden
+            set: (sortable)=> {
+                const orden = sortable.toArray();
+                localStorage.setItem(sortable.options.group.name, orden.join('|'))
+            },
+            //Obtener el orden
+            get: (sortable)=>{
+                const orden = localStorage.getItem(sortable.options.group.name)
+                return orden ? orden.split('|') : []
+            }
+        }
+    })
+}
+
+SortableFuncionesStore()
+
+
 
 
 

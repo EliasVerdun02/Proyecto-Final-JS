@@ -1,12 +1,10 @@
 class Evento{
 
-    static contadorEventos = 0;
-
-    constructor(nombre,descripcion,date){
+    constructor(nombre,descripcion,date,id){
         this.nombre = nombre
         this.descripcion = descripcion
         this.date = date
-        this.id = ++Evento.contadorEventos;
+        this.id = id
     }
 
     fecha(){

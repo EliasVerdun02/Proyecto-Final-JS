@@ -106,10 +106,27 @@ main{
 .eventos{
     width: 100%;
     padding: 1em 5em;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: minmax(10px, auto);
+    grid-gap: 2em;
+    /* display: flex;
     flex-wrap: wrap;
-    gap: 1.5em;
+    gap: 1.5em; */
 }
+
+@media (max-width: 1100px){
+    .eventos{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px){
+    .eventos{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 
 .container__evento-nota{
     margin: 2em auto;
@@ -122,12 +139,15 @@ main{
     background-position: 0 1em;
     padding: 1em;
     transition: transform .3s ease;
+    cursor: move;
 }
 
 .container__evento-nota:hover{
     transform: rotateZ(-5deg);
     
 }
+
+
 
 .container__evento-nota ul{
     position: relative;
@@ -137,6 +157,21 @@ main{
     list-style: none;
     padding: 0;
 }
+/* sortable */
+.eventos .seleccionado{
+    box-shadow: 0 0 20px rgb(245, 216, 216);
+}
+
+/* .eventos .sortable-drag{
+    opacity: 0;
+    
+} */
+
+.eventos .fantasma .evento-nota .evento-fecha i{ 
+    top: -1.5em;
+    right: -1.5em;
+}
+
 
 ul li{
     line-height: 40px;
@@ -148,6 +183,7 @@ ul li{
     top: -.8em;
     right: -.8em;
     font-size: 35px;
+    transition: all .2s ease;
 }
 
 
@@ -200,6 +236,7 @@ ul li{
 }
 
 .eventos-interaccion{
+    /* position: fixed; */
     display: flex;
     justify-content: center;
     gap: 1em;
@@ -215,5 +252,8 @@ ul li{
 .eventos-prueba:hover{
     background-color: #ecd2d2;
 }
+
+/*  */
+
 /* -Que se pueda seleccionar color de la nota
    -Que se pueda colocar o ubicarse en lugares random */
