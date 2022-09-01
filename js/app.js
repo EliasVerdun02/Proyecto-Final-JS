@@ -2,6 +2,7 @@
 //Por los 4 inputs se ingresan los datos del evento que el usario desea agendar. Una vez ingresado los datos, en cada input se debe presionar "Enter" y el evento se mostrara en el DOM.
 //Este simulador permite buscar el Evento por MES o por su NOMBRE. Tambien se pueden elminar los eventos que desea. Cada cambio realizado ya sea la entrada de un nuevo Evento o el descarte del mismo , se llamara a la funcion "guardarStorage".
 //Faltan : Estilos, y mejor experiencia de usuario(notas editables, fecha de creacion, dias restantes para el evento,etc)
+//Libreria: Implemente el uso de esta libreria para que la aplicacion tenga mejor experiencia de usuario permitiendo modificar el orden de las notas a su conveniencia
 
 const generarEventos =()=>{
     agenda.push(new Evento('Reunion laboral','Reunion sobre como mejorar el ambiente laboral',new Date(2022,8,12,13,12),1)),
@@ -18,6 +19,7 @@ const generarEventos =()=>{
 
     guardarStorage("agendaStorage",agenda)
     cargarEventos(agenda)
+    cargarBotones()
 }
 
 document.querySelector(".eventos-prueba").addEventListener("click", generarEventos)
@@ -65,10 +67,9 @@ const crearEventoHtml =(evento)=>{
                 <p class="evento-desc">${evento.descripcion} </p>
             </div>
             <li class="evento-time"><i class='bx bx-time'></i><span>${evento.time()}</span></li>
-            <li class="eliminar-evento" onclick="eliminarEvento(${evento.id})"><i class='bx bx-trash-alt'></i></li>
+            <li class="eliminar-evento" id="agregar${evento.id}"><i class='bx bx-trash-alt'></i></li>
         </ul>
     </div>`
-
     return eventoHtml
 }
 
@@ -81,12 +82,18 @@ const cargarEventos=(agendaPar)=>{
     for(evento of agendaPar){
         eventos += crearEventoHtml(evento)
     }
-
+    
     if(eventos){
         document.querySelector('.eventos').innerHTML = eventos
     }else{
         document.querySelector('.eventos').innerHTML = 'No hay eventos agendados en el mes'
     }
+}
+
+
+
+function consoel(prod){
+    console.log(prod)
 }
 
 const ajustarFechaHorario=(dat,time)=>{
@@ -133,6 +140,15 @@ const crearEvento=()=>{
     })
 }
 
+const cargarBotones=()=>{
+    agenda.forEach((evento)=>{
+        const boton = document.getElementById(`agregar${evento.id}`)
+        boton.addEventListener('click', ()=>{
+            eliminarEvento(evento.id)
+        })
+    })
+}
+
 const eliminarEvento=(id)=>{
     let index = agenda.findIndex(evento => evento.id == id)
     let index2 = agendaMes.findIndex(evento => evento.id == id)
@@ -141,6 +157,7 @@ const eliminarEvento=(id)=>{
     agendaMes.splice(index2,1)    
 
     cargarEventos()
+    cargarBotones()
     SortableFuncionesStore()
     guardarStorage("agendaStorage" ,agenda)    
 }
@@ -183,6 +200,7 @@ document.querySelector('.input-busqueda').addEventListener("keyup",e=>{
 })
 
 cargarApp()
+cargarBotones()
 
 //Libreria para mover los eventos y tambien guardar su posicion
 const eventos = document.getElementById("eventos")
@@ -211,10 +229,3 @@ const SortableFuncionesStore=()=>{
 }
 
 SortableFuncionesStore()
-
-
-
-
-
-
-
