@@ -3,6 +3,9 @@ let inputDesc = document.querySelector(".main__container-input .input-desc")
 let inputDate = document.querySelector(".main__container-input .input-date") 
 let inputTime = document.querySelector(".main__container-input .input-time") 
 
+let focusInput = document.querySelector(".focus-input")
+let busquedaInput = document.querySelector(".input-busqueda")
+
 inputDate.setAttribute("min", minDate)
 
 inputNombre.addEventListener("keypress",(e)=>{
@@ -54,4 +57,8 @@ inputTime.addEventListener("keypress",(e)=>{
             crearEvento()
         }
     }
+})
+
+focusInput.addEventListener("click", ()=>{
+    inputNombre.focus()
 })

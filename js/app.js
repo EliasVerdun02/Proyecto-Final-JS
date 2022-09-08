@@ -20,16 +20,17 @@ const generarEventos =()=>{
     guardarStorage("agendaStorage",agenda)
     cargarEventos(agenda)
     cargarBotones()
+
+    document.querySelector(".eventos-prueba").setAttribute('disabled', '')
 }
 
 document.querySelector(".eventos-prueba").addEventListener("click", generarEventos)
 
 const cargarApp=()=>{
     recuperarStorage()
+    cargarBotones()
     diaDeHoy()
 }
-
-
 
 //Local Storage
 const guardarStorage=(clave,valor)=>{
@@ -67,16 +68,16 @@ const crearEventoHtml =(evento)=>{
                 <p class="evento-desc">${evento.descripcion} </p>
             </div>
             <li class="evento-time"><i class='bx bx-time'></i><span>${evento.time()}</span></li>
-            <li class="eliminar-evento" id="agregar${evento.id}"><i class='bx bx-trash-alt'></i></li>
+            <li class="eliminar-evento" id="eliminar${evento.id}"><i class='bx bx-trash-alt'></i></li>
         </ul>
     </div>`
     return eventoHtml
 }
 
 const cargarEventos=(agendaPar)=>{
-    let mes = document.querySelector(".select-mes").value;
+    let mesElegido = document.querySelector(".select-mes").value;
     if(agendaPar == undefined){
-        mes == 'Todos' ? agendaPar = [...agenda] : agendaPar = [...agendaMes]
+        mesElegido == 'Mes' ? agendaPar = [...agenda] : agendaPar = [...agendaMes]
     }
     let eventos = ''
     for(evento of agendaPar){
@@ -89,12 +90,14 @@ const cargarEventos=(agendaPar)=>{
         document.querySelector('.eventos').innerHTML = 'No hay eventos agendados en el mes'
     }
 }
-
-
-
-function consoel(prod){
-    console.log(prod)
-}
+// const cargarEventos=(agendaPar)=>{
+//     if(agendaPar == undefined){
+//         let mesElegido = document.querySelector(".select-mes").value;
+//         mesElegido === "Mes" ? crearEventoHtml(agenda) : crearEventoHtml(agendaMes)
+//     }else{
+//         crearEventoHtml(agendaPar)
+//     }
+// }
 
 const ajustarFechaHorario=(dat,time)=>{
     let fecha = new Date(dat.value)
@@ -120,7 +123,6 @@ const verificarDatos=(valor)=>{
 
 const crearId=()=>{
     let numeroId = agenda[agenda.length - 1].id + 1
-   
     return numeroId
 }
 
@@ -134,7 +136,6 @@ const crearEvento=()=>{
     guardarStorage("agendaStorage",agenda)
     cargarEventos(agenda)
     SortableFuncionesStore()
-
     arrayInputs.forEach((input)=>{
         input.value = ''
     })
@@ -142,7 +143,7 @@ const crearEvento=()=>{
 
 const cargarBotones=()=>{
     agenda.forEach((evento)=>{
-        const boton = document.getElementById(`agregar${evento.id}`)
+        const boton = document.getElementById(`eliminar${evento.id}`)
         boton.addEventListener('click', ()=>{
             eliminarEvento(evento.id)
         })
@@ -201,7 +202,6 @@ document.querySelector('.input-busqueda').addEventListener("keyup",e=>{
 
 cargarApp()
 cargarBotones()
-
 //Libreria para mover los eventos y tambien guardar su posicion
 const eventos = document.getElementById("eventos")
 
