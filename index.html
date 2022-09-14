@@ -35,25 +35,23 @@
             <li class="focus-input"><i class='bx bx-plus'></i><span>Agregar Evento</span></li>
         </ul>
     </header>
-    <main>
-        <div class="main__today"></div>
-        <div class="container__api">
-            <div id="temp-box">
-                <h4 id="temp-valor"></h4>
+    <div class="container__api">
+        <div id="temp-box">
+            <div class="ubi-box">
+                <img id="icono-animado" src="" height="90" width="90"/>
                 <h4 id="temp-desc"></h4>
             </div>
-            <div id="ubi-box">
-                <h4 id="ubi"></h4>
-                <img id="icono-animado" src="" height="128" width="128"/>
-            </div>
-            <div id="viento-box">
-                <h5>Veloc. del viento</h5>
-                <h5 id="viento-veloc"></h5>
+            <h4 id="ubi"></h4>
+            <div class="desc-box">
+                <h4 id="temp-valor"></h4>
             </div>
         </div>
-        <h2 class="title">Ingresa un Evento nuevo<i class='bx bx-down-arrow-alt'></i></h2>
+    </div>
+    <main>
+        <div class="main__today"></div>
+        <h2 class="title">Ingresa un Evento nuevo<i class='bx bx-down-arrow-alt'></i><button class="eventos-prueba"> o Generar eventos de prueba</button></h2>
         <div class="main__container-input">
-            <input class="input input-nombre " type="text" placeholder="Nombre. Presionar 'Enter' en cada  ingreso">
+            <input class="input input-nombre " type="text" placeholder="Nombre del Evento. Presionar 'Enter' en cada dato ingresado">
 
             <input class="input input-desc" type="text" placeholder="Ingrese su descripcion">
 
@@ -61,9 +59,10 @@
 
             <input class="input input-time" type="time" placeholder="Hora del evento">
         </div>
+        
     </main>
+    
     <div class="container-eventos">
-        <button class="eventos-prueba">Generar eventos de prueba</button>
         <div class="eventos" id="eventos">
     
         </div>

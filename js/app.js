@@ -1,8 +1,14 @@
-//Simulador tipo Todo App:
+//Simulador tipo Todo App: La idea de este simulador es simular una pizarra con notas o recordatorios que cualquiera puede necesitar y que se les permita ordenarlos a su favor o ya sea borrarlos.
 //Por los 4 inputs se ingresan los datos del evento que el usario desea agendar. Una vez ingresado los datos, en cada input se debe presionar "Enter" y el evento se mostrara en el DOM.
-//Este simulador permite buscar el Evento por MES o por su NOMBRE. Tambien se pueden elminar los eventos que desea. Cada cambio realizado ya sea la entrada de un nuevo Evento o el descarte del mismo , se llamara a la funcion "guardarStorage".
-//Faltan : Estilos, y mejor experiencia de usuario(notas editables, fecha de creacion, dias restantes para el evento,etc)
-//Libreria: Implemente el uso de esta libreria para que la aplicacion tenga mejor experiencia de usuario permitiendo modificar el orden de las notas a su conveniencia
+//Este simulador permite buscar el Evento por MES o por su NOMBRE. Tambien se pueden elminar los eventos que desea. Cada cambio realizado ya sea la entrada de un nuevo Evento o el descarte del mismo , se llamara a la funcion "guardarStorage" para guardaro en el LS.
+//Libreria: Implemente el uso de esta libreria para que la aplicacion tenga mejor experiencia de usuario permitiendo modificar el orden de las notas a su conveniencia. No implemente una libreria para las fechas porque no lo crei necesario.
+//Cosas extras por hacer: Estilos(responsive), y mejor experiencia de usuario(notas editables, fecha de creacion, dias restantes para el evento,etc)
+
+
+const cargarApp=()=>{
+    recuperarStorage()
+    diaDeHoy()
+}
 
 const generarEventos =()=>{
     agenda.push(new Evento('Reunion laboral','Reunion sobre como mejorar el ambiente laboral',new Date(2022,8,12,13,12),1)),
@@ -12,24 +18,13 @@ const generarEventos =()=>{
     agenda.push(new Evento('Cumpleaños','fecha festiva',new Date(2022,11,27,22),5)),
     agenda.push(new Evento('Juntada con amigos','Plaza mitre',new Date(2022,9,12,22),6)),
     agenda.push(new Evento('Pool party','Casa de Juan',new Date(2023,0,2,11),7)),
-    agenda.push(new Evento('Comeinzo universidad','CBC UBA',new Date(2023,02,14,13),8)),
+    agenda.push(new Evento('Comienzo universidad','CBC UBA',new Date(2023,02,14,13),8)),
     agenda.push(new Evento('Asado','En lo de Martin',new Date(2022,11,20,21),9)),
     agenda.push(new Evento('Fiesta de fin de año','Guemes',new Date(2022,11,31,19),10)),
     agenda.push(new Evento('CoderHouse','2da pre-entrega del proyecto final',new Date(2022,07,25,23,59),11))
 
     guardarStorage("agendaStorage",agenda)
     cargarEventos(agenda)
-    cargarBotones()
-
-    document.querySelector(".eventos-prueba").setAttribute('disabled', '')
-}
-
-document.querySelector(".eventos-prueba").addEventListener("click", generarEventos)
-
-const cargarApp=()=>{
-    recuperarStorage()
-    cargarBotones()
-    diaDeHoy()
 }
 
 //Local Storage
@@ -49,6 +44,7 @@ const recuperarStorage=()=>{
         cargarEventos(agenda)
     }
 }
+
 
 
 //Dia de hoy
@@ -74,30 +70,33 @@ const crearEventoHtml =(evento)=>{
     return eventoHtml
 }
 
-const cargarEventos=(agendaPar)=>{
-    let mesElegido = document.querySelector(".select-mes").value;
-    if(agendaPar == undefined){
-        mesElegido == 'Mes' ? agendaPar = [...agenda] : agendaPar = [...agendaMes]
+const cargarEventos=(agendaParametro)=>{
+    let mesElegido = document.querySelector(".select-mes").value
+
+    let eventosHtml = ''
+    for(evento of agendaParametro){
+        eventosHtml += crearEventoHtml(evento)
     }
-    let eventos = ''
-    for(evento of agendaPar){
-        eventos += crearEventoHtml(evento)
-    }
-    
-    if(eventos){
-        document.querySelector('.eventos').innerHTML = eventos
-    }else{
-        document.querySelector('.eventos').innerHTML = 'No hay eventos agendados en el mes'
-    }
+
+    let eventosContainer = document.querySelector('.eventos')
+
+    eventosHtml
+      ? eventosContainer.innerHTML = eventosHtml 
+      : eventosContainer.innerHTML = "<p class='no-eventos' >No se encuentran eventos agendados<i class='bx bxs-popsicle sin-eventos'></i></p>"
+     
+    mesElegido == "Mes" ? cargarBotones() : cargarBotones(agendaParametro)
+    mostrarGeneradorEventos()
 }
-// const cargarEventos=(agendaPar)=>{
-//     if(agendaPar == undefined){
-//         let mesElegido = document.querySelector(".select-mes").value;
-//         mesElegido === "Mes" ? crearEventoHtml(agenda) : crearEventoHtml(agendaMes)
-//     }else{
-//         crearEventoHtml(agendaPar)
-//     }
-// }
+
+const recargarEventos=()=>{
+    let mesElegido = document.querySelector(".select-mes").value
+
+    let agendaRecargar = []
+
+    mesElegido == 'Mes' ? agendaRecargar = [...agenda] : agendaRecargar = [...agendaMes]
+
+    cargarEventos(agendaRecargar)
+}
 
 const ajustarFechaHorario=(dat,time)=>{
     let fecha = new Date(dat.value)
@@ -113,13 +112,7 @@ const ajustarFechaHorario=(dat,time)=>{
     return fecha
 }
 
-const verificarDatos=(valor)=>{
-    if(valor == '' ){
-        return false
-    }else{
-        return true
-}
-}
+const verificarDatos = valor => valor == '' ? false : true
 
 const crearId=()=>{
     let numeroId = agenda[agenda.length - 1].id + 1
@@ -141,8 +134,11 @@ const crearEvento=()=>{
     })
 }
 
-const cargarBotones=()=>{
-    agenda.forEach((evento)=>{
+const cargarBotones=(agendaDom)=>{ //Agrega eventos a toda la agenda o a la agenda del mes seleccionado(parametro). Segun exista o no el parametro
+    if(agendaDom == undefined){
+        agendaDom = [...agenda]
+    }
+    agendaDom.forEach((evento)=>{
         const boton = document.getElementById(`eliminar${evento.id}`)
         boton.addEventListener('click', ()=>{
             eliminarEvento(evento.id)
@@ -157,31 +153,33 @@ const eliminarEvento=(id)=>{
     agenda.splice(index,1)    
     agendaMes.splice(index2,1)    
 
-    cargarEventos()
-    cargarBotones()
+    recargarEventos()
     SortableFuncionesStore()
     guardarStorage("agendaStorage" ,agenda)    
 }
 
+const mostrarGeneradorEventos =()=>{
+    agenda.length ? generarEventosBtn.className = "eventos-prueba display" : generarEventosBtn.className = "eventos-prueba"
+}
+
+let generarEventosBtn = document.querySelector(".eventos-prueba")
+generarEventosBtn.addEventListener("click", generarEventos)
+
 document.querySelector(".select-mes").addEventListener("change", () => {
-  let mes = document.querySelector(".select-mes").value;
+  let mesElegido = document.querySelector(".select-mes").value //declaro de nuevo la variable porque si la defino fuera de la funcion capta el primer valor del input Select.
   let inputBusqueda = document.querySelector(".input-busqueda");
 
-  if (mes === "Todos") {
+  if (mesElegido === "Mes") {
     cargarEventos(agenda);
     agendaMes = [];
     inputBusqueda.removeAttribute("disabled");
   } else {
-    let eventos = agenda.filter((evento) => evento.fecha().includes(mes));
+    let eventos = agenda.filter((evento) => evento.fecha().includes(mesElegido));
 
     agendaMes = [...eventos];
     cargarEventos(eventos);
 
-    if (agendaMes.length) {
-      inputBusqueda.removeAttribute("disabled");
-    } else {
-      inputBusqueda.setAttribute("disabled", "");
-    }
+    agendaMes.length ? inputBusqueda.removeAttribute("disabled") : inputBusqueda.setAttribute("disabled", "")
   }
 })
 
@@ -189,11 +187,8 @@ document.querySelector('.input-busqueda').addEventListener("keyup",e=>{
     let nombre = e.target.value.toLowerCase()
 
     if(agendaMes.length){
-        
         let eventos = agendaMes.filter((evento)=> evento.nombre.toLowerCase().includes(nombre))
-
         cargarEventos(eventos)
-        
     }else{
         let eventos = agenda.filter((evento)=> evento.nombre.toLowerCase().includes(nombre))
         cargarEventos(eventos)
@@ -201,7 +196,6 @@ document.querySelector('.input-busqueda').addEventListener("keyup",e=>{
 })
 
 cargarApp()
-cargarBotones()
 //Libreria para mover los eventos y tambien guardar su posicion
 const eventos = document.getElementById("eventos")
 
@@ -229,3 +223,4 @@ const SortableFuncionesStore=()=>{
 }
 
 SortableFuncionesStore()
+

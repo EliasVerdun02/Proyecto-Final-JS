@@ -32,3 +32,4 @@ let mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Se
 let date = new Date()
 
 let minDate = `${date.getFullYear()}-${(date.getMonth()+1 )>=10 ? (date.getMonth()+1) : '0'+ (date.getMonth()+1) }-${date.getDate()}`
+
